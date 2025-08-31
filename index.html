@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Numerologi Nama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Mengubah ini untuk menempatkan konten di atas */
+        height: 100vh;
+        margin: 0;
+        background-color: #e9ecef;
+      }
+      .container {
+        text-align: center;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 90%;
+        border-top: 5px solid #007bff;
+        margin-top: 10px; /* Menambahkan margin atas untuk jarak */
+      }
+      h1 {
+        color: #343a40;
+        margin-bottom: 25px;
+        font-weight: 600;
+      }
+      input[type="text"] {
+        padding: 12px;
+        width: calc(100% - 24px);
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+      .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      button {
+        padding: 12px 25px;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+      #hitungButton {
+        background-color: #007bff;
+      }
+      #hitungButton:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+      #resetButton {
+        background-color: #dc3545;
+      }
+      #resetButton:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+      }
+      .hasil-container {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+      }
+      #totalAwal {
+        font-size: 18px;
+        color: #495057;
+        margin-bottom: 10px;
+      }
+      #hasilAkhir {
+        font-size: 32px;
+        font-weight: bold;
+        color: #28a745;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+      #keterangan-judul {
+        font-size: 16px;
+        font-weight: bold;
+        color: #343a40;
+        margin-top: 20px;
+        margin-bottom: 5px;
+      }
+      #keterangan-deskripsi {
+        font-size: 14px;
+        color: #6c757d;
+        line-height: 1.6;
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>NUMEROLOGI</h1>
+      <input type="text" id="namaInput" placeholder="Masukkan nama Anda" oninput="formatInput(this)" />
+      <div class="button-group">
+        <button id="hitungButton" onclick="hitungNilai()">Hitung</button>
+        <button id="resetButton" onclick="resetForm()">Reset</button>
+      </div>
+      <div class="hasil-container">
+        <div id="totalAwal"></div>
+        <div id="hasilAkhir"></div>
+        <div id="keterangan-judul"></div>
+        <div id="keterangan-deskripsi"></div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("namaInput").addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          hitungNilai();
+        }
+      });
+
+      const keteranganAngka = {
+        1: {
+          judul: "Pemimpin dan Pelopor",
+          deskripsi:
+            "Orang dengan angka nama 1 cenderung memiliki sifat kepemimpinan yang kuat. Mereka sering menjadi pelopor dalam berbagai bidang, dengan kreativitas dan kemandirian yang tinggi. Karakteristik positif meliputi ambisi, keberanian, dan determinasi. Namun, mereka juga bisa menjadi terlalu dominan atau egois jika tidak seimbang.",
+        },
+        2: {
+          judul: "Diplomat dan Penengah",
+          deskripsi:
+            "Angka 2 melambangkan keseimbangan dan harmoni. Individu dengan angka ini biasanya memiliki kemampuan diplomasi yang baik dan dapat menjadi penengah yang efektif dalam konflik. Mereka sensitif, intuitif, dan kooperatif, tetapi kadang-kadang bisa terlalu bergantung pada orang lain atau ragu-ragu dalam mengambil keputusan.",
+        },
+        3: {
+          judul: "Kreatif dan Ekspresif",
+          deskripsi:
+            "Orang dengan angka 3 sering kali sangat kreatif dan ekspresif. Mereka memiliki bakat dalam komunikasi, seni, dan hiburan. Optimisme dan antusiasme adalah ciri khas mereka. Namun, mereka juga bisa menjadi terlalu superfisial atau kurang fokus jika tidak mengelola energi kreatif mereka dengan baik.",
+        },
+        4: {
+          judul: "Pekerja Keras dan Praktis",
+          deskripsi:
+            "Angka 4 melambangkan stabilitas dan kerja keras. Individu dengan angka ini cenderung sangat terorganisir, dapat diandalkan, dan praktis. Mereka memiliki etika kerja yang kuat dan ketekunan dalam mengejar tujuan. Di sisi negatif, mereka bisa menjadi terlalu kaku atau workaholic.",
+        },
+        5: {
+          judul: "Petualang dan Pembawa Perubahan",
+          deskripsi:
+            "Orang dengan angka 5 adalah jiwa yang bebas dan suka berpetualang. Mereka adaptif, fleksibel, dan selalu mencari pengalaman baru. Kecerdasan dan rasa ingin tahu yang tinggi adalah kekuatan mereka. Namun, mereka juga bisa menjadi tidak stabil atau sulit berkomitmen jika tidak menemukan keseimbangan.",
+        },
+        6: {
+          judul: "Pengasuh dan Pelindung",
+          deskripsi:
+            "Angka 6 berkaitan dengan tanggung jawab, cinta, dan pengasuhan. Individu dengan angka ini sering kali sangat peduli dan protektif terhadap orang-orang di sekitar mereka. Mereka memiliki rasa keadilan yang kuat dan keinginan untuk menciptakan harmoni. Kelemahannya bisa menjadi terlalu mengontrol atau mengorbankan diri sendiri.",
+        },
+        7: {
+          judul: "Pemikir dan Pencari Kebenaran",
+          deskripsi:
+            "Orang dengan angka 7 cenderung memiliki pikiran yang dalam dan analitis. Mereka sering terlibat dalam pencarian spiritual atau intelektual, dengan kecenderungan untuk introspeksi. Kekuatan mereka terletak pada kebijaksanaan dan intuisi. Namun, mereka juga bisa menjadi terlalu perfeksionis atau terisolasi.",
+        },
+        8: {
+          judul: "Pemimpin Bisnis dan Materialistis",
+          deskripsi:
+            "Angka 8 melambangkan kekuasaan, otoritas, dan kesuksesan material. Individu dengan angka ini sering memiliki bakat alami dalam bisnis dan manajemen. Mereka ambisius dan berorientasi pada hasil. Di sisi negatif, mereka bisa menjadi terlalu materialistis atau otoriter.",
+        },
+        9: {
+          judul: "Humanis dan Idealis",
+          deskripsi:
+            "Orang dengan angka 9 sering memiliki visi yang luas dan kepedulian terhadap kemanusiaan. Mereka idealis, compassionate, dan sering terlibat dalam pekerjaan yang melayani orang lain. Kreativitas dan inspirasi adalah kekuatan mereka. Namun, mereka juga bisa menjadi terlalu idealistis atau sulit menerima realitas.",
+        },
+        11: {
+          judul: "Melambangkan intuisi tinggi dan pencerahan spiritual",
+          deskripsi: "",
+        },
+        22: {
+          judul: 'Dikenal sebagai "Master Builder"',
+          deskripsi: "Menggabungkan visi dengan kemampuan praktis.",
+        },
+        33: {
+          judul: 'Dianggap sebagai "Master Teacher"',
+          deskripsi: "Membawa kebijaksanaan dan pelayanan tingkat tinggi.",
+        },
+      };
+
+      function formatInput(input) {
+        // Menghapus karakter yang bukan huruf, spasi, atau kutip tunggal
+        input.value = input.value.replace(/[^a-zA-Z\s']/g, "");
+        // Mengubah semua huruf menjadi kapital
+        input.value = input.value.toUpperCase();
+      }
+
+      function hitungNilai() {
+        const nilaiHuruf = {
+          A: 1,
+          J: 1,
+          S: 1,
+          B: 2,
+          K: 2,
+          T: 2,
+          C: 3,
+          L: 3,
+          U: 3,
+          D: 4,
+          M: 4,
+          V: 4,
+          E: 5,
+          N: 5,
+          W: 5,
+          F: 6,
+          O: 6,
+          X: 6,
+          G: 7,
+          P: 7,
+          Y: 7,
+          H: 8,
+          Q: 8,
+          Z: 8,
+          I: 9,
+          R: 9,
+        };
+
+        const nama = document.getElementById("namaInput").value;
+        if (nama.trim() === "") {
+          document.getElementById("totalAwal").innerText = "";
+          document.getElementById("hasilAkhir").innerText = "Silakan masukkan nama.";
+          document.getElementById("keterangan-judul").innerText = "";
+          document.getElementById("keterangan-deskripsi").innerText = "";
+          return;
+        }
+
+        let totalAwal = 0;
+        for (let i = 0; i < nama.length; i++) {
+          const huruf = nama[i];
+          if (nilaiHuruf[huruf]) {
+            totalAwal += nilaiHuruf[huruf];
+          }
+        }
+
+        let hasilAkhir = totalAwal;
+        if (totalAwal !== 11 && totalAwal !== 22 && totalAwal !== 33) {
+          function jumlahkanDigit(angka) {
+            let jumlah = 0;
+            const strAngka = String(angka);
+            for (let i = 0; i < strAngka.length; i++) {
+              jumlah += parseInt(strAngka[i]);
+            }
+            return jumlah;
+          }
+          while (String(hasilAkhir).length > 1) {
+            hasilAkhir = jumlahkanDigit(hasilAkhir);
+          }
+        }
+
+        document.getElementById("totalAwal").innerText = "Total nilai: " + totalAwal;
+        document.getElementById("hasilAkhir").innerText = hasilAkhir;
+
+        const dataKeterangan = keteranganAngka[hasilAkhir];
+        if (dataKeterangan) {
+          document.getElementById("keterangan-judul").innerText = dataKeterangan.judul;
+          document.getElementById("keterangan-deskripsi").innerText = dataKeterangan.deskripsi;
+        } else {
+          document.getElementById("keterangan-judul").innerText = "Keterangan tidak ditemukan.";
+          document.getElementById("keterangan-deskripsi").innerText = "";
+        }
+      }
+
+      function resetForm() {
+        document.getElementById("namaInput").value = "";
+        document.getElementById("totalAwal").innerText = "";
+        document.getElementById("hasilAkhir").innerText = "";
+        document.getElementById("keterangan-judul").innerText = "";
+        document.getElementById("keterangan-deskripsi").innerText = "";
+        document.getElementById("namaInput").focus();
+      }
+    </script>
+  </body>
+</html>
